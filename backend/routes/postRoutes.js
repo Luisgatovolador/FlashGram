@@ -1,10 +1,11 @@
-const express = require("express");
+import express from "express";
+import { createPost, getFeed } from "../controllers/postController.js";
+import verifyJWT from "../middlewares/verifyJWT.js";
+import upload from "../middlewares/uploadMiddleware.js";
+
 const router = express.Router();
-const { createPost, getFeed } = require("../controllers/postController");
-const verifyJWT = require("../middlewares/verifyJWT");
-const upload = require("../middlewares/uploadMiddleware");
 
 router.post("/create", verifyJWT, upload.single("image"), createPost);
 router.get("/feed", verifyJWT, getFeed);
 
-module.exports = router;
+export default router;

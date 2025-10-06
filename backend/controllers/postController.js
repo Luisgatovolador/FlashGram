@@ -1,6 +1,6 @@
-const Post = require("../models/Post");
+import Post from "../models/Post.js";
 
-const createPost = async (req, res) => {
+export const createPost = async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ message: "Imagen requerida" });
 
@@ -11,21 +11,21 @@ const createPost = async (req, res) => {
     });
 
     await post.save();
-    res.status(201).json({ message: "Post creado", post });
+    res.status(201).json({ message: "Post creado con éxito", post });
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ message: "Error creando post" });
+    res.status(500).json({ message: "Error creando el post" });
   }
 };
 
-const getFeed = async (req, res) => {
+export const getFeed = async (req, res) => {
   try {
-    const posts = await Post.find().populate("author", "displayName").sort({ createdAt: -1 });
+    const posts = await Post.find()
+      .populate("author", "displayName")
+      .sort({ createdAt: -1 });
     res.json(posts);
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ message: "Error obteniendo feed" });
+    res.status(500).json({ message: "Error obteniendo el feed" });
   }
 };
-
-module.exports = { createPost, getFeed };

@@ -1,19 +1,38 @@
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const connectDB = require("./config/db");
-const authRoutes = require("./routes/authRoutes");
-const postRoutes = require("./routes/postRoutes");
+
+import express from "express";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import morgan from "morgan";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+
+
+dotenv.config();
+
 
 const app = express();
-connectDB();
 
-app.use(cors());
+
 app.use(express.json());
-app.use("/uploads", express.static("uploads"));
+app.use(cors());
+app.use(morgan("dev"));
 
-app.use("/auth", authRoutes);
-app.use("/posts", postRoutes);
 
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
+const MONGO_URI = process.env.MONGO_URI;
+
+
+mongoose
+  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("✅ Conectado a MongoDB Atlas"))
+  .catch((err) => console.error("❌ Error al conectar a MongoDB:", err.message));
+
+
+app.get("/", (req, res) => {
+  res.json({ message: "Servidor FlashGram funcionando correctamente 🚀" });
+});
+
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});

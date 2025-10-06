@@ -1,10 +1,11 @@
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import User from "../models/User.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-const register = async (req, res) => {
+export const register = async (req, res) => {
   try {
     const { email, password, displayName } = req.body;
+
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ message: "Usuario ya existe" });
 
@@ -14,16 +15,17 @@ const register = async (req, res) => {
     const newUser = new User({ email, passwordHash, displayName });
     await newUser.save();
 
-    res.status(201).json({ message: "Usuario registrado" });
+    res.status(201).json({ message: "Usuario registrado correctamente ✅" });
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ message: "Error interno" });
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
-const login = async (req, res) => {
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+
     const user = await User.findOne({ email });
     if (!user) return res.status(401).json({ message: "Credenciales inválidas" });
 
@@ -36,8 +38,6 @@ const login = async (req, res) => {
     res.json({ token });
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ message: "Error interno" });
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
-
-module.exports = { register, login };

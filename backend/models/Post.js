@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema({
   imageUrl: { type: String, required: true },
@@ -9,10 +9,10 @@ const postSchema = new mongoose.Schema({
       user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
       comment: String,
       createdAt: { type: Date, default: Date.now },
-    }
+    },
   ],
   author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   createdAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("Post", postSchema);
+export default mongoose.model("Post", postSchema);
