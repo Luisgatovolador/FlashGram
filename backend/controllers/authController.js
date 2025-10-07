@@ -41,3 +41,13 @@ export const login = async (req, res) => {
     res.status(500).json({ message: "Error interno del servidor" });
   }
 };
+
+export const logout = async (req, res) => {
+  try {
+   
+    res.json({ message: "Sesión cerrada correctamente 🚪" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: "Error al cerrar sesión" });
+  }
+};
