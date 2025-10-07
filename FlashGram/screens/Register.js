@@ -8,12 +8,15 @@ export default function RegisterScreen({ navigation }) {
   const [password, setPassword] = useState("");
 
   const handleRegister = async () => {
+    if (!displayName || !email || !password) return Alert.alert("Error", "Todos los campos son obligatorios");
+
     try {
-      const res = await fetch(`${API_URL}/register`, {
+      const res = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ displayName, email, password }),
       });
+
       const data = await res.json();
 
       if (res.ok) {
@@ -43,6 +46,8 @@ export default function RegisterScreen({ navigation }) {
         style={styles.input}
         value={email}
         onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
       />
 
       <TextInput
@@ -68,7 +73,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#fff", padding: 20 },
   title: { fontSize: 28, fontWeight: "bold", marginBottom: 20 },
   input: { width: "100%", borderWidth: 1, borderColor: "#ccc", borderRadius: 8, padding: 10, marginBottom: 10 },
-  button: { backgroundColor: "#28a745", padding: 12, borderRadius: 8, width: "100%", alignItems: "center" },
+  button: { backgroundColor: "#28a745", padding: 12, borderRadius: 8, width: "100%", alignItems: "center", marginTop: 10 },
   buttonText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
   link: { marginTop: 15, color: "#007bff" },
 });
