@@ -1,8 +1,12 @@
 import Post from "../models/Post.js";
-
 export const createPost = async (req, res) => {
   try {
-    if (!req.file) return res.status(400).json({ message: "Imagen requerida" });
+    console.log("🟡 BODY:", req.body);
+    console.log("🟡 FILE:", req.file);
+
+    if (!req.file) {
+      return res.status(400).json({ message: "Imagen requerida" });
+    }
 
     const post = new Post({
       imageUrl: `/uploads/${req.file.filename}`,
@@ -13,10 +17,11 @@ export const createPost = async (req, res) => {
     await post.save();
     res.status(201).json({ message: "Post creado con éxito", post });
   } catch (err) {
-    console.error(err.message);
+    console.error("🔥 Error en createPost:", err);
     res.status(500).json({ message: "Error creando el post" });
   }
 };
+
 
 export const getFeed = async (req, res) => {
   try {
