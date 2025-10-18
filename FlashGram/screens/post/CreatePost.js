@@ -11,7 +11,7 @@ import {
   useColorScheme,
   SafeAreaView,
 } from "react-native";
-import { RNCamera } from "react-native-camera";
+import { Camera, useCameraDevices } from "react-native-vision-camera";
 import { API_URL, UNSPLASH_KEY, OPENAI_KEY } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";

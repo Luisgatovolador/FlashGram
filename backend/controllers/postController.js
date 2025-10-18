@@ -1,4 +1,5 @@
 import Post from "../models/Post.js";
+
 export const createPost = async (req, res) => {
   try {
     console.log("🟡 BODY:", req.body);
@@ -9,9 +10,9 @@ export const createPost = async (req, res) => {
     }
 
     const post = new Post({
-      imageUrl: `/uploads/${req.file.filename}`,
+      image: `/uploads/${req.file.filename}`, // nombre igual que en el schema
       caption: req.body.caption || "",
-      author: req.user.sub,
+      author: req.user.sub, // ID del usuario autenticado
     });
 
     await post.save();
@@ -21,7 +22,6 @@ export const createPost = async (req, res) => {
     res.status(500).json({ message: "Error creando el post" });
   }
 };
-
 
 export const getFeed = async (req, res) => {
   try {

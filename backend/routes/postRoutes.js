@@ -1,11 +1,12 @@
 import express from "express";
 import { createPost, getFeed } from "../controllers/postController.js";
 import verifyJWT from "../middlewares/verifyJWT.js";
-import upload from "../middlewares/uploadMiddleware.js";
+import { uploadSingleImage } from "../middlewares/uploadMiddleware.js";
 
 const router = express.Router();
 
-router.post("/create", verifyJWT, upload.single("image"), createPost);
-router.get("/feed", verifyJWT, getFeed);
+// 👇 Aquí usamos el middleware seguro
+router.post("/create", verifyJWT, uploadSingleImage, createPost);
+router.get("/feed", getFeed);
 
 export default router;

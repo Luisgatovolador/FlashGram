@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema({
-  imageUrl: { type: String, required: true },
+  image: { type: String, required: true }, // antes imageUrl
   caption: { type: String, default: "" },
   likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   comments: [
